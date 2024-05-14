@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
 
+    private float boundary = -1f ;
+    public GameObject player;
+    public GameObject RespawnPlayer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,6 +56,10 @@ public class PlayerController : MonoBehaviour
                 canDoubleJump = false;
             }
         }
+        if (transform.position.y < boundary)
+        {
+            player.transform.position = RespawnPlayer.transform.position;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -59,6 +67,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            
         }
 
     }
@@ -68,7 +77,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+            
         }
     }
+   
+
+
 
 }
