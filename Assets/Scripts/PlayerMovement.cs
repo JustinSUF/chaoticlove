@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
     public GameObject player;
     public GameObject RespawnPlayer;
 
+    public float glideGravity = 0.5f;
+    public float normalGravity = 1f;
+    public bool isGliding = false;
+
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -45,6 +51,8 @@ public class PlayerController : MonoBehaviour
         // Jumping
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            isGliding = true;
+
             if (isGrounded)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -55,10 +63,17 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 canDoubleJump = false;
             }
+            
         }
         if (transform.position.y < boundary)
         {
             player.transform.position = RespawnPlayer.transform.position;
+        }
+       
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isGliding = false;
         }
     }
 
@@ -80,8 +95,18 @@ public class PlayerController : MonoBehaviour
             
         }
     }
-   
 
 
+    void FixedUpdate()
+    {
+        if (isGliding && rb.velocity.y < 0)
+        {
+            rb.gravityScale = glideGravity;
+        }
+        else
+        {
+            rb.gravityScale = normalGravity;
+        }
+    }
 
 }
