@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
 
+    private float speedBoost = 14f;
     private float boundary = -1f ;
     public GameObject player;
     public GameObject RespawnPlayer;
@@ -69,8 +70,11 @@ public class PlayerController : MonoBehaviour
         {
             player.transform.position = RespawnPlayer.transform.position;
         }
-       
 
+        if (transform.position.x > speedBoost)
+        {
+            moveSpeed=15;
+        }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             isGliding = false;
